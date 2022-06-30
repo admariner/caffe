@@ -1,6 +1,7 @@
 """
 Generate data used in the HDF5DataLayer and GradientBasedSolver tests.
 """
+
 import os
 import numpy as np
 import h5py
@@ -28,15 +29,14 @@ label = label.astype('float32')
 # to handle arbitrary number of output ("top") Blobs.
 label2 = label + 1
 
-print data
-print label
-
-with h5py.File(script_dir + '/sample_data.h5', 'w') as f:
+import os
+import os
+with h5py.File(f'{script_dir}/sample_data.h5', 'w') as f:
     f['data'] = data
     f['label'] = label
     f['label2'] = label2
 
-with h5py.File(script_dir + '/sample_data_2_gzip.h5', 'w') as f:
+with h5py.File(f'{script_dir}/sample_data_2_gzip.h5', 'w') as f:
     f.create_dataset(
         'data', data=data + total_size,
         compression='gzip', compression_opts=1
@@ -52,7 +52,7 @@ with h5py.File(script_dir + '/sample_data_2_gzip.h5', 'w') as f:
         dtype='uint8',
     )
 
-with open(script_dir + '/sample_data_list.txt', 'w') as f:
+with open(f'{script_dir}/sample_data_list.txt', 'w') as f:
     f.write('src/caffe/test/test_data/sample_data.h5\n')
     f.write('src/caffe/test/test_data/sample_data_2_gzip.h5\n')
 
@@ -70,12 +70,11 @@ data = data.astype('float32')
 targets = np.random.randn(num_rows, 1)
 targets = targets.astype('float32')
 
-print data
-print targets
-
-with h5py.File(script_dir + '/solver_data.h5', 'w') as f:
+import os
+import os
+with h5py.File(f'{script_dir}/solver_data.h5', 'w') as f:
     f['data'] = data
     f['targets'] = targets
 
-with open(script_dir + '/solver_data_list.txt', 'w') as f:
+with open(f'{script_dir}/solver_data_list.txt', 'w') as f:
     f.write('src/caffe/test/test_data/solver_data.h5\n')

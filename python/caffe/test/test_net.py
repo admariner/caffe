@@ -54,9 +54,7 @@ class TestNet(unittest.TestCase):
         del self.net
 
         # now sum everything (forcing all memory to be read)
-        total = 0
-        for p in params:
-            total += p.data.sum() + p.diff.sum()
+        total = sum(p.data.sum() + p.diff.sum() for p in params)
         for bl in blobs:
             total += bl.data.sum() + bl.diff.sum()
 
@@ -81,10 +79,10 @@ class TestNet(unittest.TestCase):
         self.assertIn('ip_blob',forward_blob)
 
         manual_forward=[]
-        for i in range(0,conv_blob.data.shape[0]):
-          dot=np.dot(self.net.params['ip'][0].data,
-                     conv_blob.data[i].reshape(-1))
-          manual_forward.append(dot+self.net.params['ip'][1].data)
+        for i in range(conv_blob.data.shape[0]):
+            dot=np.dot(self.net.params['ip'][0].data,
+                       conv_blob.data[i].reshape(-1))
+            manual_forward.append(dot+self.net.params['ip'][1].data)
         manual_forward=np.array(manual_forward)
 
         np.testing.assert_allclose(ip_blob.data,manual_forward,rtol=1e-3,atol=1e-5)
@@ -99,10 +97,10 @@ class TestNet(unittest.TestCase):
         self.assertIn('conv',backward_blob)
 
         manual_backward=[]
-        for i in range(0,conv_blob.data.shape[0]):
-          dot=np.dot(self.net.params['ip'][0].data.transpose(),
-                     sample_data[i].reshape(-1))
-          manual_backward.append(dot)
+        for i in range(conv_blob.data.shape[0]):
+            dot=np.dot(self.net.params['ip'][0].data.transpose(),
+                       sample_data[i].reshape(-1))
+            manual_backward.append(dot)
         manual_backward=np.array(manual_backward)
         manual_backward=manual_backward.reshape(conv_blob.data.shape)
 
