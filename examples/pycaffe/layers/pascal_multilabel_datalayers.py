@@ -114,7 +114,7 @@ class BatchLoader(object):
 
         # Load an image
         index = self.indexlist[self._cur]  # Get the image index
-        image_file_name = index + '.jpg'
+        image_file_name = f'{index}.jpg'
         im = np.asarray(Image.open(
             osp.join(self.pascal_root, 'JPEGImages', image_file_name)))
         im = scipy.misc.imresize(im, self.im_shape)  # resize
@@ -202,7 +202,7 @@ def check_params(params):
 
     required = ['batch_size', 'pascal_root', 'im_shape']
     for r in required:
-        assert r in params.keys(), 'Params must include {}'.format(r)
+        assert r in params.keys(), f'Params must include {r}'
 
 
 def print_info(name, params):
